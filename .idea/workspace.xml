@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="38af9f36-5ab7-4edf-8b7d-5acf2166fda2" name="Default Changelist" comment="" />
+    <list default="true" id="38af9f36-5ab7-4edf-8b7d-5acf2166fda2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,11 +15,12 @@
     <session id="-1927205057">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.20" value="1" />
+          <entry key="project.open.time.4" value="2" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -31,12 +35,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="2746" />
+          <entry key="py" value="2751" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="2746" />
+          <entry key="Python" value="2751" />
         </counts>
       </usages-collector>
     </session>
@@ -46,13 +50,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="200">
+              <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
               <folding>
-                <marker date="1542822008676" expanded="true" signature="11:764" ph="..." />
-                <marker date="1542822008676" expanded="true" signature="277:763" ph="..." />
-                <marker date="1542822008676" expanded="true" signature="277:764" ph="..." />
-                <marker date="1542822008676" expanded="true" signature="775:977" ph="..." />
+                <marker date="1542853677345" expanded="true" signature="11:773" ph="..." />
+                <marker date="1542853677345" expanded="true" signature="286:772" ph="..." />
+                <marker date="1542853677345" expanded="true" signature="286:773" ph="..." />
+                <marker date="1542853677345" expanded="true" signature="784:986" ph="..." />
               </folding>
             </state>
           </provider>
@@ -70,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LFTPClient.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-19">
-              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="152">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
               <folding>
                 <marker date="1542821813820" expanded="true" signature="114:1186" ph="..." />
               </folding>
@@ -88,6 +92,10 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -95,17 +103,18 @@
         <option value="$PROJECT_DIR$/UDPtest/UDPClient.py" />
         <option value="$PROJECT_DIR$/UDPtest/main.py" />
         <option value="$PROJECT_DIR$/LFTPClient.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/LFTPServer.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="82" />
-    <option name="y" value="56" />
-    <option name="width" value="1704" />
+    <option name="x" value="265" />
+    <option name="y" value="97" />
+    <option name="width" value="1705" />
     <option name="height" value="930" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -120,11 +129,6 @@
             </path>
             <path>
               <item name="LFTP" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LFTP" type="462c0819:PsiDirectoryNode" />
-              <item name="UDPtest" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LFTP" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
@@ -135,7 +139,8 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="D:/softwareDownload/Git/cmd/git.exe" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -300,10 +305,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="66" y="45" width="1363" height="744" extended-state="0" />
+    <frame x="74" y="23" width="1364" height="744" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49346405" visible="true" weight="0.17784476" />
-      <window_info id="Structure" order="1" sideWeight="0.50653595" side_tool="true" visible="true" weight="0.17784476" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4911111" visible="true" weight="0.17771085" />
+      <window_info id="Structure" order="1" sideWeight="0.5088889" side_tool="true" visible="true" weight="0.17771085" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -311,15 +317,51 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.3286119" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32089552" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32569557" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.26350245" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3207856" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.3286119" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -339,12 +381,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LFTPClient.py">
+    <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-19">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        <state relative-caret-position="200">
+          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
           <folding>
-            <marker date="1542821813820" expanded="true" signature="114:1186" ph="..." />
+            <marker date="1542853677345" expanded="true" signature="11:773" ph="..." />
+            <marker date="1542853677345" expanded="true" signature="286:772" ph="..." />
+            <marker date="1542853677345" expanded="true" signature="286:773" ph="..." />
+            <marker date="1542853677345" expanded="true" signature="784:986" ph="..." />
           </folding>
         </state>
       </provider>
@@ -356,15 +401,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/LFTPClient.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        <state relative-caret-position="152">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
           <folding>
-            <marker date="1542822008676" expanded="true" signature="11:764" ph="..." />
-            <marker date="1542822008676" expanded="true" signature="277:763" ph="..." />
-            <marker date="1542822008676" expanded="true" signature="277:764" ph="..." />
-            <marker date="1542822008676" expanded="true" signature="775:977" ph="..." />
+            <marker date="1542821813820" expanded="true" signature="114:1186" ph="..." />
           </folding>
         </state>
       </provider>
