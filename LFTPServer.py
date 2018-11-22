@@ -8,7 +8,7 @@ def main():
     server_addr = ('', SERVER_PORT)
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     server_socket.bind(server_addr)
-    # 发送数据包次数计数
+    # 发送数据包次数计数1
     pkt_count = 0
     # 模式rb 以二进制格式打开一个文件用于只读。文件指针将会放在文件的开头。
     file_to_send = open(SEND_FILE_NAME, 'rb')

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38af9f36-5ab7-4edf-8b7d-5acf2166fda2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LFTPServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/LFTPServer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,38 +35,38 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="2751" />
+          <entry key="py" value="2754" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="2751" />
+          <entry key="Python" value="2754" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+            <state relative-caret-position="137">
+              <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
               <folding>
-                <marker date="1542853677345" expanded="true" signature="11:773" ph="..." />
-                <marker date="1542853677345" expanded="true" signature="286:772" ph="..." />
-                <marker date="1542853677345" expanded="true" signature="286:773" ph="..." />
-                <marker date="1542853677345" expanded="true" signature="784:986" ph="..." />
+                <marker date="1542854224625" expanded="true" signature="11:775" ph="..." />
+                <marker date="1542854224625" expanded="true" signature="288:774" ph="..." />
+                <marker date="1542854224625" expanded="true" signature="288:775" ph="..." />
+                <marker date="1542854224625" expanded="true" signature="786:988" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LFTPServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+            <state relative-caret-position="190">
+              <caret line="10" column="16" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -103,16 +103,15 @@
         <option value="$PROJECT_DIR$/UDPtest/UDPClient.py" />
         <option value="$PROJECT_DIR$/UDPtest/main.py" />
         <option value="$PROJECT_DIR$/LFTPClient.py" />
-        <option value="$PROJECT_DIR$/LFTPServer.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/LFTPServer.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="265" />
-    <option name="y" value="97" />
+    <option name="x" value="106" />
     <option name="width" value="1705" />
-    <option name="height" value="930" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -305,11 +304,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="74" y="23" width="1364" height="744" extended-state="0" />
+    <frame x="85" y="0" width="1364" height="830" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4911111" visible="true" weight="0.17771085" />
-      <window_info id="Structure" order="1" sideWeight="0.5088889" side_tool="true" visible="true" weight="0.17771085" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4904051" visible="true" weight="0.17771085" />
+      <window_info id="Structure" order="1" sideWeight="0.50959486" side_tool="true" visible="true" weight="0.17771085" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -317,11 +316,11 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32569557" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.26350245" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3207856" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3286119" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32568148" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49924698" weight="0.2625538" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.31994262" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.500753" side_tool="true" weight="0.26350245" />
+      <window_info anchor="bottom" id="Python Console" order="10" visible="true" weight="0.32711622" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -383,21 +382,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+        <state relative-caret-position="137">
+          <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
           <folding>
-            <marker date="1542853677345" expanded="true" signature="11:773" ph="..." />
-            <marker date="1542853677345" expanded="true" signature="286:772" ph="..." />
-            <marker date="1542853677345" expanded="true" signature="286:773" ph="..." />
-            <marker date="1542853677345" expanded="true" signature="784:986" ph="..." />
+            <marker date="1542854224625" expanded="true" signature="11:775" ph="..." />
+            <marker date="1542854224625" expanded="true" signature="288:774" ph="..." />
+            <marker date="1542854224625" expanded="true" signature="288:775" ph="..." />
+            <marker date="1542854224625" expanded="true" signature="786:988" ph="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LFTPServer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -408,6 +400,13 @@
           <folding>
             <marker date="1542821813820" expanded="true" signature="114:1186" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LFTPServer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="16" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
         </state>
       </provider>
     </entry>

@@ -15,7 +15,7 @@ def lget(server_addr, file_name):
 
 
 def read_command():
-    # hi
+    # hi12
     print('scanf()')
     pattern = re.compile(r"(LFTP) (lsend|lget) (\S+) (\S+)")
     # cmd = 'LFTP - lget errors, 4.4.4.4 warnings'
