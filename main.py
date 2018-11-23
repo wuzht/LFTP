@@ -1,5 +1,5 @@
 import re
-
+import os
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -34,12 +34,21 @@ def read_command():
 def main():
     usage = Usage("hello")
     print(usage.msg)
-    cmd = input()
-    if cmd == 1:
-        lsend('127.0.0.1', 'largefile.zip')
-    else:
-        lget('127.0.0.1', 'largefile.zip')
-    read_command()
+    # cmd = input()
+    # if cmd == 1:
+    #     lsend('127.0.0.1', 'largefile.zip')
+    # else:
+    #     lget('127.0.0.1', 'largefile.zip')
+    # read_command()
+
+    str = "this is string example....wow!!!"
+    str = "lget#Carla Bruni - Chez Keith et Anita.mp3"
+    print(str.split('#')[1])
+    print(str.split('i', 1))
+    print(str.split('w'))
+
+    print(os.path.exists('ClientFiles/CarlaBruni.mp3'))
+    print(os.path.exists('Carla Bruni - Chez Keith et Anita.mp3'))
 
 
 if __name__ == "__main__":
