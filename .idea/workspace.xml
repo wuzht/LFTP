@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="38af9f36-5ab7-4edf-8b7d-5acf2166fda2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LFTPClient.py" beforeDir="false" afterPath="$PROJECT_DIR$/LFTPClient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LFTPServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/LFTPServer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,13 +43,13 @@
         <counts>
           <entry key="md" value="304" />
           <entry key="py" value="5286" />
-          <entry key="txt" value="20" />
+          <entry key="txt" value="45" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Markdown" value="304" />
-          <entry key="PLAIN_TEXT" value="20" />
+          <entry key="PLAIN_TEXT" value="45" />
           <entry key="Python" value="5286" />
         </counts>
       </usages-collector>
@@ -108,8 +105,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LFTPClient.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1786">
-              <caret line="94" column="6" selection-start-line="94" selection-start-column="6" selection-end-line="94" selection-end-column="41" />
+            <state relative-caret-position="399">
+              <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
                 <marker date="1542986610457" expanded="true" signature="2255:2851" ph="..." />
@@ -353,7 +350,14 @@
       <option name="project" value="LOCAL" />
       <updated>1542855053807</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="实现了lsend和lget的基本功能">
+      <created>1542987055194</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1542987055194</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -367,21 +371,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.54313725" visible="true" weight="0.15587847" />
-      <window_info id="Structure" order="1" sideWeight="0.45686275" side_tool="true" visible="true" weight="0.15587847" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.54359925" visible="true" weight="0.15587847" />
+      <window_info id="Structure" order="1" sideWeight="0.45640075" side_tool="true" visible="true" weight="0.15587847" />
       <window_info id="Favorites" order="2" sideWeight="0.41571194" side_tool="true" weight="0.17704426" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.27659574" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.27659574" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32340425" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49924698" weight="0.235461" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" sideWeight="0.49924698" visible="true" weight="0.235461" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.31914893" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.500753" side_tool="true" weight="0.26350245" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32569557" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3248227" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -430,7 +435,8 @@
     <MESSAGE value="test commit" />
     <MESSAGE value="test" />
     <MESSAGE value="README" />
-    <option name="LAST_COMMIT_MESSAGE" value="README" />
+    <MESSAGE value="实现了lsend和lget的基本功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="实现了lsend和lget的基本功能" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/UDPtest/UDPServer.py">
@@ -492,8 +498,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LFTPClient.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1786">
-          <caret line="94" column="6" selection-start-line="94" selection-start-column="6" selection-end-line="94" selection-end-column="41" />
+        <state relative-caret-position="399">
+          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <marker date="1542986610457" expanded="true" signature="2255:2851" ph="..." />
