@@ -1,6 +1,9 @@
 # large media files
 *.mp3
 
+# pycharm ide folder
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

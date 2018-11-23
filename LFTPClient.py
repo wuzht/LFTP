@@ -89,7 +89,7 @@ def connection_request(client_socket, server_addr, cmd, large_file_name):
 
 
 def read_command(client_socket):
-    print('请输入命令: LFTP [lsend | lget] server_addr large_file_name')
+    print('请输入命令: LFTP [lsend | lget] server_address large_file_name')
     pattern = re.compile(r"(LFTP) (lsend|lget) (\S+) (\S+)")
     # LFTP lget 127.0.0.1 CarlaBruni.mp3
     # LFTP lsend 127.0.0.1 CarlaBruni.mp3

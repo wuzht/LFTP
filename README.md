@@ -13,6 +13,10 @@ between two computers in the Internet.
 * main.py 不用管
 
 ## 文件夹
-注意要传输的文件命名不能有空格和`#`
+
+运行前应建立以下两个文件夹
+
  * `ServerFiles` 服务端(要接收或发送)的文件存放在ServerFile
  * `ClinetFiles` 客户端(要接收或发送)的文件存放在ClientFile
+ 
+ 注意要传输的文件命名不能有空格和`#`
