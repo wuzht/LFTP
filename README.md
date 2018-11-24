@@ -35,3 +35,10 @@ between two computers in the Internet.
  需要添加struct模块`import struct`
  
  使用方法参照博客：https://www.cnblogs.com/leomei91/p/7602603.html
+ 
+ ## 多线程
+ 
+ 支持同时多客户端文件收发
+ 
+ 服务端周知端口号为12000，收到客户端请求后，创建新的服务端线程(新的socket, 新的端口好)处理对应客户的请求
+ 
