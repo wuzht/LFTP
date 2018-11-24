@@ -1,6 +1,7 @@
 import socket
 import os
 import struct
+import threading
 BUF_SIZE = 1500
 FILE_BUF_SIZE = 1024
 SERVER_PORT = 12000
@@ -74,11 +75,9 @@ def lsend(server_socket, client_address, large_file_name):
     print('成功接收的数据包数量：' + str(pkt_count))
 
 
-def server_listening(server_socket):
-    # 三次握手
-    print("等待客户端发起连接...")
-    message, client_address = server_socket.recvfrom(BUF_SIZE)
-    print('来自', client_address, '的数据是: ', message.decode('utf-8'))
+def serve_client(client_address, message):
+    # 创建新的服务端socket为客户端提供服务
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     # 来自客户端的命令，格式为[lsend|lget]#large_file_name，因此文件命名不允许含有#
     cmd = message.decode('utf-8').split('#')[0]
@@ -90,7 +89,7 @@ def server_listening(server_socket):
             server_socket.sendto('fileNotExists'.encode('utf-8'), client_address)
             return
 
-        # TODO: 在此要把各样工作(如分配线程等)准备好，再发送连接允许
+        # TODO: 在此要把各样工作准备好，再发送连接允许
 
         # 连接允许
         server_socket.sendto('连接允许'.encode('utf-8'), client_address)
@@ -106,9 +105,12 @@ def server_listening(server_socket):
         message, client_address = server_socket.recvfrom(BUF_SIZE)
         print('来自', client_address, '的数据是: ', message.decode('utf-8'))
 
-        # TODO: 在此要把各样工作(如分配线程等)准备好，再发送接收允许(在lsend内)
+        # TODO: 在此要把各样工作准备好，再发送接收允许(在lsend内)
 
         lsend(server_socket, client_address, large_file_name)
+
+    # 关闭socket
+    server_socket.close()
 
 
 def main():
@@ -117,15 +119,20 @@ def main():
         print('文件夹', SERVER_FOLDER, '不存在，请先创建！')
         exit(1)
 
-    # 创建服务端socket
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    server_socket.bind(('', SERVER_PORT))
+    # 创建服务端主socket，周知端口号为SERVER_PORT
+    server_main_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    server_main_socket.bind(('', SERVER_PORT))
 
     while True:
-        server_listening(server_socket)
+        print('正在运行的线程数量：', threading.activeCount())
+        # 服务端主socket等待客户端发起连接
+        print("等待客户端发起连接...")
+        message, client_address = server_main_socket.recvfrom(BUF_SIZE)
+        print('来自', client_address, '的数据是: ', message.decode('utf-8'))
 
-    # 关闭服务端socket
-    server_socket.close()
+        # 创建新的线程，处理客户端的请求
+        new_thread = threading.Thread(target=serve_client, args=(client_address, message))
+        new_thread.start()
 
 
 if __name__ == "__main__":

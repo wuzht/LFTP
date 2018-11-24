@@ -2,6 +2,7 @@ main
 
 # large media files
 *.mp3
+*.mp4
 
 # pycharm ide folder
 .idea/
