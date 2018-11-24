@@ -6,9 +6,9 @@ between two computers in the Internet.
 
 ## 文件
 
-* LFTPServer.py LFTP服务端
+* `LFTPServer.py` LFTP服务端
 
-* LFTPClient.py LFTP客户端
+* `LFTPClient.py` LFTP客户端
 
 ## 文件夹
 
@@ -18,3 +18,20 @@ between two computers in the Internet.
  * `ClinetFiles` 客户端(要接收或发送)的文件存放在ClientFile
  
  注意要传输的文件命名不能有空格和`#`
+ 
+ ## LFTP协议数据包格式
+ 
+ 使用python的struct模块打包数据，形成LFTP数据包发送
+ 
+ 定义`pkt_struct = struct.Struct('III1024s')`
+ 
+ 暂时定义的数据包格式(实现的过程中根据需要调整):
+ 
+ * `seq` int类型，序列号
+ * `ack` int类型，确认号
+ * `end_flag` int类型，文件结束标志，为1时表示文件发送完毕
+ * `data` 1024字节的byte类型
+ 
+ 需要添加struct模块`import struct`
+ 
+ 使用方法参照博客：https://www.cnblogs.com/leomei91/p/7602603.html
