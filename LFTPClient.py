@@ -84,6 +84,7 @@ def lget(client_socket, server_address, large_file_name):
 def connection_request(client_socket, server_addr, cmd, large_file_name):
     # 若要发送的文件不存在，退出程序
     if cmd == 'lsend' and (os.path.exists(CLIENT_FOLDER + large_file_name) is False):
+        print('要发送的文件不存在，退出程序')
         exit(2)
 
     # 三次握手
@@ -123,8 +124,8 @@ def read_command(client_socket):
 def main():
     # 检查接收文件夹是否存在
     if os.path.exists(CLIENT_FOLDER) is False:
-        print('文件夹', CLIENT_FOLDER, '不存在，请先创建！')
-        exit(1)
+        print('创建文件夹', CLIENT_FOLDER)
+        os.mkdir(CLIENT_FOLDER)
 
     # 创建客户端socket
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

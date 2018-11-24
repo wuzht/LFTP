@@ -116,8 +116,8 @@ def serve_client(client_address, message):
 def main():
     # 检查接收文件夹是否存在
     if os.path.exists(SERVER_FOLDER) is False:
-        print('文件夹', SERVER_FOLDER, '不存在，请先创建！')
-        exit(1)
+        print('创建文件夹', SERVER_FOLDER)
+        os.mkdir(SERVER_FOLDER)
 
     # 创建服务端主socket，周知端口号为SERVER_PORT
     server_main_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

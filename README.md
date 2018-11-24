@@ -40,5 +40,9 @@ between two computers in the Internet.
  
  支持同时多客户端文件收发
  
- 服务端周知端口号为12000，收到客户端请求后，创建新的服务端线程(新的socket, 新的端口好)处理对应客户的请求
+ 服务端周知端口号为12000，收到客户端请求后，创建新的服务端线程(新的socket, 新的端口号)处理对应客户的请求
+ 
+ 使用python3的`threading`模块，方法参考：http://www.runoob.com/python3/python3-multithreading.html
+ 
+ 
  
