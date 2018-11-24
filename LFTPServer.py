@@ -87,6 +87,8 @@ def serve_client(client_address, message):
         # 文件不存在，并告知客户端
         if os.path.exists(SERVER_FOLDER + large_file_name) is False:
             server_socket.sendto('fileNotExists'.encode('utf-8'), client_address)
+            # 关闭socket
+            server_socket.close()
             return
 
         # TODO: 在此要把各样工作准备好，再发送连接允许
