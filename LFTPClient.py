@@ -1,10 +1,15 @@
 import socket
 import re
 import os
-BUF_SIZE = 1024
-# SERVER_ADDR = ('127.0.0.1', 12000)
+import struct
+BUF_SIZE = 1500
+FILE_BUF_SIZE = 1024
 SERVER_PORT = 12000
 CLIENT_FOLDER = 'ClientFiles/'   # 接收文件夹
+
+# 传输文件时的数据包格式(序列号，确认号，文件结束标志，1024B的数据)
+# pkt_value = (int seq, int ack, int end_flag 1024B的byte类型 data)
+pkt_struct = struct.Struct('III1024s')
 
 
 def lsend(client_socket, server_address, large_file_name):
@@ -21,18 +26,23 @@ def lsend(client_socket, server_address, large_file_name):
     message, server_address = client_socket.recvfrom(BUF_SIZE)
     print('来自', server_address, '的数据是: ', message.decode('utf-8'))
 
-    # 用缓冲区循环发送文件
+    print('正在发送', large_file_name)
+    # 用缓冲区循环发送数据包
     while True:
-        data = file_to_send.read(BUF_SIZE)
+        data = file_to_send.read(FILE_BUF_SIZE)
+        seq = pkt_count
+        ack = pkt_count
+
+        # 将元组打包发送
         if str(data) != "b''":  # b''表示文件读完
-            client_socket.sendto(data, server_address)
+            end_flag = 0
+            client_socket.sendto(pkt_struct.pack(*(seq, ack, end_flag, data)), server_address)
         else:
-            # 把'end'发送给客户端，表示文件已发送完毕
-            client_socket.sendto('end'.encode('utf-8'), server_address)
+            end_flag = 1  # 发送的结束标志为1，表示文件已发送完毕
+            client_socket.sendto(pkt_struct.pack(*(seq, ack, end_flag, 'end'.encode('utf-8'))), server_address)
             break
         # 等待服务端ACK
         data, server_address = client_socket.recvfrom(BUF_SIZE)
-        # print('接受自 ', client_address, '收到数据为 : ', data.decode('utf-8'))
         pkt_count += 1
 
     print(large_file_name, '发送完毕，发送数据包的数量：' + str(pkt_count))
@@ -49,14 +59,20 @@ def lget(client_socket, server_address, large_file_name):
     # 发送ACK 注意要做好所有准备(比如创建文件)后才向服务端发送ACK
     client_socket.sendto('ACK'.encode('utf-8'), server_address)
 
+    print('正在接收', large_file_name)
     # 开始接收数据包
     while True:
-        # 用缓冲区接收文件
-        data, server_address = client_socket.recvfrom(BUF_SIZE)
-        if str(data) != "b'end'":  # 'end'为结束标志
+        # 用缓冲区接收数据包
+        packed_data, server_address = client_socket.recvfrom(BUF_SIZE)
+        # 解包，得到元组
+        unpacked_data = pkt_struct.unpack(packed_data)
+        end_flag = unpacked_data[2]
+        data = unpacked_data[3]
+
+        if end_flag != 1:
             file_to_recv.write(data)
         else:
-            break  # 接受到结束通知,结束循环
+            break  # 结束标志为1,结束循环
         # 向服务端发送ACK
         client_socket.sendto('ACK'.encode('utf-8'), server_address)
         pkt_count += 1

@@ -10,8 +10,6 @@ between two computers in the Internet.
 
 * LFTPClient.py LFTP客户端
 
-* main.py 不用管
-
 ## 文件夹
 
 运行前应建立以下两个文件夹
