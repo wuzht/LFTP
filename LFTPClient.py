@@ -4,15 +4,20 @@ import re
 import os
 import struct
 import threading
+import sys
+import random
 import time
 BUF_SIZE = 1500
 FILE_BUF_SIZE = 1024
 SERVER_PORT = 12000
 CLIENT_FOLDER = 'ClientFiles/'   # 接收文件夹
-WINDOW_SIZE = 1000
-wsnd = WINDOW_SIZE
-buffer_receive = []
+
+RCV_WINDOW_SIZE = 1000
+SND_WINDOW_SIZE = 800
+# wsnd = WINDOW_SIZE
+
 threading_lock = threading.Lock()
+dummy_address = ('150.10.10.2', 65351)
 
 # 传输文件时的数据包格式(序列号，确认号，文件结束标志，1024B的数据)
 # pkt_value = (int seq, int ack, int end_flag 1024B的byte类型 data)
@@ -27,7 +32,7 @@ def lsend(client_socket, server_address, large_file_name):
     file_to_send = open(CLIENT_FOLDER + large_file_name, 'rb')
 
     data_group = []
-    while True:
+    for i in range(SND_WINDOW_SIZE):
         data_group.append(file_to_send.read(FILE_BUF_SIZE))
         if str(data_group[len(data_group) - 1]) == "b''":
             break
@@ -40,15 +45,11 @@ def lsend(client_socket, server_address, large_file_name):
     print('来自', server_address, '的数据是: ', message.decode('utf-8'))
 
     print('正在发送', large_file_name)
+
+    send_base = 0
     # 用缓冲区循环发送数据包
-
     while True:
-        # data = file_to_send.read(FILE_BUF_SIZE)
-
         send_package_num = 0
-
-        #seq = pkt_count
-        #ack = pkt_count
 
         # 将元组打包发送
         global is_exit
@@ -56,44 +57,47 @@ def lsend(client_socket, server_address, large_file_name):
         is_end = False
         new_threading = threading.Thread(target=listen_package, args=(client_socket, 0))
         new_threading.start()
-        for i in range(WINDOW_SIZE):
+        for i in range(SND_WINDOW_SIZE):
 
-            # print(is_full)
-            if is_full:
-                # print(is_full)
-                # print(i)
+            if is_full or pkt_count == len(data_group) - 1:
                 break
 
-            if str(data_group[pkt_count+i]) != "b''":  # b''表示文件读完
+            if str(data_group[i]) != "b''":  # b''表示文件读完
                 end_flag = 0
-                client_socket.sendto(pkt_struct.pack(*(pkt_count+i, int(pid), end_flag, data_group[pkt_count+i])), server_address)
+                client_socket.sendto(pkt_struct.pack(*(pkt_count+i, int(pid), end_flag, data_group[i])), server_address)
                 send_package_num += 1
             else:
-                # print("end")
                 is_end = True
                 end_flag = 1  # 发送的结束标志为1，表示文件已发送完毕
                 client_socket.sendto(pkt_struct.pack(*(pkt_count+i, int(pid), end_flag, 'end'.encode('utf-8'))), server_address)
                 threading_lock.acquire()
                 is_exit = True
                 threading_lock.release()
-                # print("end")
                 # 等待ACK
                 try:
                     new_threading.join()
                     ack_data_, server_address = client_socket.recvfrom(BUF_SIZE)
                     ack_num = int(ack_data_.decode('utf-8'))
-                    pkt_count = ack_num-1
+                    pkt_count = ack_num
                     break
                 except socket.timeout as e:
-                    pkt_count = pkt_count+i
+                    pkt_count = pkt_count + i
                     break
                 except ConnectionResetError as e:
+                    pkt_count = pkt_count + i
+                    break
+                except ValueError as e:
+                    pkt_count = pkt_count + i
                     break
 
         if is_end:
-            if pkt_count == len(data_group) - 1:
-                break
+            if pkt_count == send_base + len(data_group) - 1:
+                print(sys._getframe().f_lineno, "return")
+                file_to_send.close()
+                print(large_file_name, '发送完毕，发送数据包的数量：' + str(pkt_count))
+                return
             else:
+                is_end = False
                 continue
 
         threading_lock.acquire()
@@ -108,7 +112,7 @@ def lsend(client_socket, server_address, large_file_name):
                 get_data = str(ack_data_.decode('utf-8'))
                 if get_data.isdigit():
                     ack_num = int(get_data)
-                    # print(ack_num)
+                    print(sys._getframe().f_lineno, "ack_num", ack_num)
                     pkt_count = ack_num
                     break
                 else:
@@ -118,8 +122,20 @@ def lsend(client_socket, server_address, large_file_name):
         except socket.timeout as e:
             pkt_count = pkt_count
         except ConnectionResetError as e:
+            print(sys._getframe().f_lineno, e)
             break
-    print(large_file_name, '发送完毕，发送数据包的数量：' + str(pkt_count))
+
+        print(sys._getframe().f_lineno, "pkt_count", pkt_count)
+
+        # 更新data_group
+        for i in range(pkt_count - send_base):
+            del data_group[0]
+        while len(data_group) < SND_WINDOW_SIZE:
+            data_group.append(file_to_send.read(FILE_BUF_SIZE))
+            if str(data_group[len(data_group) - 1]) == "b''":
+                break
+        send_base = pkt_count
+
 
 
 def listen_package(client_socket, ack_type):
@@ -150,75 +166,61 @@ def lget(client_socket, server_address, large_file_name):
     # 创建文件。模式wb 以二进制格式打开一个文件只用于写入。如果该文件已存在则打开文件，
     # 并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。
     file_to_recv = open(CLIENT_FOLDER + large_file_name, 'wb')
-    # 接收数据包次数计数
-    pkt_count = 0
 
     # 发送ACK 注意要做好所有准备(比如创建文件)后才向服务端发送ACK
     client_socket.sendto('ACK'.encode('utf-8'), server_address)
     need_ack = 0
+    end_flag = 0
     print('正在接收', large_file_name)
+
     # 开始接收数据包
     while True:
+        buffer_receive = []
         # 用缓冲区接收数据包
         package_num = 0
-        while len(buffer_receive) <= WINDOW_SIZE:
+        while len(buffer_receive) <= RCV_WINDOW_SIZE:
             try:
-                # print(package_num)
                 packed_data_, server_address_ = client_socket.recvfrom(BUF_SIZE)
+                if package_num > 600 and random.randint(0, 100) > 96:    # 模拟丢包
+                    continue
                 buffer_receive.append(packed_data_)
                 package_num += 1
             except Exception as e:
-                # print(e)
+                print(sys._getframe().f_lineno, e)
                 break
 
         # 窗口满了，向发送端发送
         if package_num != 0:
-            # print("full")
+            print(sys._getframe().f_lineno ,"full")
             client_socket.sendto('isFull'.encode('utf-8'), server_address)
 
-        # 从list里读包，是这个进程的包就写进去，不是就不管
-        threading_lock.acquire()
-        i = 0
-        while i < len(buffer_receive):
-            data_ = buffer_receive[i]
+        # 从buffer_receive里读包，写到文件里
+        while len(buffer_receive) > 0:
+            data_ = buffer_receive[0]
             unpacked_data = pkt_struct.unpack(data_)
             seq_num = unpacked_data[0]
+
+            if seq_num != need_ack:     # 收到乱序的数据包，则不再写入文件，跳出循环
+                break
             ack_num = unpacked_data[1]
             end_flag = unpacked_data[2]
             data = unpacked_data[3]
             buffer_receive.remove(data_)
-            # print(seq_num)
             if seq_num == need_ack:
                 if end_flag != 1:
                     file_to_recv.write(data)
                     need_ack += 1
                 else:
                     break  # 结束标志为1,结束循环
-        threading_lock.release()
-        if package_num != 0:
-            client_socket.sendto(str(need_ack).encode('utf-8'), server_address)
-            # print(need_ack)
-            if end_flag == 1:
-                break
-        else:
-            client_socket.sendto(str(need_ack).encode('utf-8'), server_address)
-        # print(len(buffer_receive))
-        pkt_count += 1
-        '''
-        packed_data, server_address = client_socket.recvfrom(BUF_SIZE)
-        # 解包，得到元组
-        unpacked_data = pkt_struct.unpack(packed_data)
-        end_flag = unpacked_data[2]
-        data = unpacked_data[3]
 
-        if end_flag != 1:
-            file_to_recv.write(data)
+        print(sys._getframe().f_lineno, "need_ack", need_ack)
+
+        if random.randint(0, 99) > 90:  # 模拟ACK丢包
+            client_socket.sendto(str(need_ack).encode('utf-8'), dummy_address)
         else:
-            break  # 结束标志为1,结束循环
-        # 向服务端发送ACK
-        client_socket.sendto('ACK'.encode('utf-8'), server_address)
-        pkt_count += 1
-        '''
+            client_socket.sendto(str(need_ack).encode('utf-8'), server_address)
+        if end_flag == 1:
+            break
 
     file_to_recv.close()
     print('成功接收的数据包数量：' + str(need_ack))
@@ -252,8 +254,10 @@ def connection_request(client_socket, server_addr, cmd, large_file_name):
 
     # 注意要做好所有准备(比如创建文件)后才向服务端发送ACK
     if cmd == 'lget':
+        client_socket.settimeout(1)
         lget(client_socket, server_address, large_file_name)
     elif cmd == 'lsend':
+        client_socket.settimeout(2)
         lsend(client_socket, server_address, large_file_name)
 
 
@@ -281,7 +285,7 @@ def main():
 
     # 创建客户端socket
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    client_socket.settimeout(7)
+    client_socket.settimeout(4)
 
 
     # 客户端输入命令
