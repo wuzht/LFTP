@@ -93,7 +93,7 @@ def lget(server_socket, client_address, large_file_name):
                     print(sys._getframe().f_lineno, "pkt_count", pkt_count)
                     file_to_send.close()
                     print(sys._getframe().f_lineno, large_file_name, '发送完毕，发送数据包的数量：' + str(pkt_count), e)
-                    break
+                    return
 
         print(sys._getframe().f_lineno, "pkt_count sndbase lendata", pkt_count, send_base, len(data_group))
         if is_end:
@@ -169,7 +169,7 @@ def listen_package(server_socket, ack_type):
                     threadLock.release()
             except ConnectionResetError as e:
                 print(e)
-                break
+                return
 
 
 # 接收到lsend命令，客户端向服务端发送文件
