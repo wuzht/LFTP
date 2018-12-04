@@ -47,7 +47,7 @@ def lget(server_socket, client_address, large_file_name):
         new_threading = threading.Thread(target=listen_package, args=(server_socket, 0))
         new_threading.start()
         for i in range(cwnd):
-            if is_full or pkt_count == len(data_group) - 1:
+            if is_full or pkt_count == len(data_group) - 1 or i >= len(data_group):
                 break
 
             if str(data_group[i]) != "b''":  # b''表示文件读完
@@ -138,7 +138,7 @@ def lget(server_socket, client_address, large_file_name):
         # 更新data_group
         for i in range(pkt_count - send_base):
             del data_group[0]
-        while len(data_group) < cwnd:
+        while len(data_group) < SND_WINDOW_SIZE:
             data_group.append(file_to_send.read(FILE_BUF_SIZE))
             if str(data_group[len(data_group) - 1]) == "b''":
                 break
