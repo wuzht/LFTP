@@ -215,6 +215,7 @@ def lget(client_socket, server_address, large_file_name):
                     file_to_recv.write(data)
                     need_ack += 1
                 else:
+                    need_ack += 1
                     break  # 结束标志为1,结束循环
 
         print(sys._getframe().f_lineno, "need_ack", need_ack)

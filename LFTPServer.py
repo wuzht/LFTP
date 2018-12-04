@@ -99,7 +99,7 @@ def lget(server_socket, client_address, large_file_name):
         if is_end:
             if pkt_count == send_base + len(data_group) - 1:
                 print(sys._getframe().f_lineno, "return")
-                return
+                break
             else:
                 is_end = False
                 continue
@@ -226,6 +226,7 @@ def lsend(server_socket, client_address, large_file_name):
                     file_to_recv.write(data)
                     need_ack += 1
                 else:
+                    need_ack += 1
                     break  # 结束标志为1,结束循环
 
         print(sys._getframe().f_lineno, "need_ack", need_ack)
