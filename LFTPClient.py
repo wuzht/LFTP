@@ -21,7 +21,7 @@ dummy_address = ('150.10.10.2', 65351)
 
 # 传输文件时的数据包格式(序列号，确认号，文件结束标志，1024B的数据)
 # pkt_value = (int seq, int ack, int end_flag 1024B的byte类型 data)
-pkt_struct = struct.Struct('III1024s')
+pkt_struct = struct.Struct('II1024s')
 
 
 def lsend(client_socket, server_address, large_file_name):
@@ -49,6 +49,7 @@ def lsend(client_socket, server_address, large_file_name):
     send_base = 0
     # 用缓冲区循环发送数据包
     cwnd = 1
+    is_break = False
     while True:
         send_package_num = 0
 
@@ -65,12 +66,12 @@ def lsend(client_socket, server_address, large_file_name):
 
             if str(data_group[i]) != "b''":  # b''表示文件读完
                 end_flag = 0
-                client_socket.sendto(pkt_struct.pack(*(pkt_count+i, int(pid), end_flag, data_group[i])), server_address)
+                client_socket.sendto(pkt_struct.pack(*(pkt_count+i, end_flag, data_group[i])), server_address)
                 send_package_num += 1
             else:
                 is_end = True
                 end_flag = 1  # 发送的结束标志为1，表示文件已发送完毕
-                client_socket.sendto(pkt_struct.pack(*(pkt_count+i, int(pid), end_flag, 'end'.encode('utf-8'))), server_address)
+                client_socket.sendto(pkt_struct.pack(*(pkt_count+i, end_flag, 'end'.encode('utf-8'))), server_address)
                 threading_lock.acquire()
                 is_exit = True
                 threading_lock.release()
@@ -86,20 +87,25 @@ def lsend(client_socket, server_address, large_file_name):
                     break
                 except ConnectionResetError as e:
                     pkt_count = pkt_count + i
-                    return
+                    is_break = True
+                    # print("isBreak")
+                    break
                 except ValueError as e:
                     pkt_count = pkt_count + i
                     break
 
+        if is_break:
+            break
+
         if is_end:
             if pkt_count == send_base + len(data_group) - 1:
                 print(sys._getframe().f_lineno, "return")
-                file_to_send.close()
-                print(large_file_name, '发送完毕，发送数据包的数量：' + str(pkt_count))
-                return
+                is_break = True
+                break
             else:
                 is_end = False
                 continue
+
 
         threading_lock.acquire()
         is_exit = True
@@ -139,6 +145,9 @@ def lsend(client_socket, server_address, large_file_name):
             if str(data_group[len(data_group) - 1]) == "b''":
                 break
         send_base = pkt_count
+    file_to_send.close()
+    print(large_file_name, '发送完毕，发送数据包的数量：' + str(pkt_count))
+
 
 
 
@@ -161,8 +170,8 @@ def listen_package(client_socket, ack_type):
                 else:
                     threading_lock.release()
             except ConnectionResetError as e:
-                print(e)
-                return
+                # print(e)
+                break
 
 
 def lget(client_socket, server_address, large_file_name):
@@ -206,9 +215,8 @@ def lget(client_socket, server_address, large_file_name):
 
             if seq_num != need_ack:     # 收到乱序的数据包，则不再写入文件，跳出循环
                 break
-            ack_num = unpacked_data[1]
-            end_flag = unpacked_data[2]
-            data = unpacked_data[3]
+            end_flag = unpacked_data[1]
+            data = unpacked_data[2]
             buffer_receive.remove(data_)
             if seq_num == need_ack:
                 if end_flag != 1:

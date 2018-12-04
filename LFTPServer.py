@@ -16,7 +16,7 @@ dummy_address = ('150.10.10.2', 65351)
 
 # 传输文件时的数据包格式(序列号，确认号，文件结束标志，1024B的数据)
 # pkt_value = (int seq, int ack, int end_flag 1024B的byte类型 data)
-pkt_struct = struct.Struct('III1024s')
+pkt_struct = struct.Struct('II1024s')
 
 
 # 接收到lget命令，向客户端发送文件
@@ -52,14 +52,14 @@ def lget(server_socket, client_address, large_file_name):
 
             if str(data_group[i]) != "b''":  # b''表示文件读完
                 end_flag = 0
-                server_socket.sendto(pkt_struct.pack(*(pkt_count + i, int(threading.currentThread().ident), end_flag, data_group[i])),
+                server_socket.sendto(pkt_struct.pack(*(pkt_count + i, end_flag, data_group[i])),
                                      client_address)
                 # print(sys._getframe().f_lineno, "sending", pkt_count + i)
                 send_package_num += 1
             else:
                 is_end = True
                 end_flag = 1  # 发送的结束标志为1，表示文件已发送完毕
-                server_socket.sendto(pkt_struct.pack(*(pkt_count + i, int(threading.currentThread().ident), end_flag, 'end'.encode('utf-8'))),
+                server_socket.sendto(pkt_struct.pack(*(pkt_count + i, end_flag, 'end'.encode('utf-8'))),
                                      client_address)
                 threadLock.acquire()
                 is_exit = True
@@ -90,7 +90,7 @@ def lget(server_socket, client_address, large_file_name):
                     pkt_count = pkt_count + i
                     break
                 except ConnectionError as e:
-                    print(sys._getframe().f_lineno, "pkt_count", pkt_count)
+                    # print(sys._getframe().f_lineno, "pkt_count", pkt_count)
                     file_to_send.close()
                     print(sys._getframe().f_lineno, large_file_name, '发送完毕，发送数据包的数量：' + str(pkt_count), e)
                     return
@@ -130,7 +130,7 @@ def lget(server_socket, client_address, large_file_name):
             pkt_count = pkt_count
             cwnd  =1
         except ConnectionResetError as e:
-            print(sys._getframe().f_lineno, e)
+            # print(sys._getframe().f_lineno, e)
             break
 
         print(sys._getframe().f_lineno, "pkt_count", pkt_count)
@@ -199,8 +199,10 @@ def lsend(server_socket, client_address, large_file_name):
                     continue
                 buffer_receive.append(packed_data_)
                 package_num += 1
-            except Exception as e:
+            except socket.timeout as e:
                 print(sys._getframe().f_lineno, e)
+                break
+            except ConnectionError as e:
                 connection_break = True
                 break
 
@@ -217,9 +219,8 @@ def lsend(server_socket, client_address, large_file_name):
 
             if seq_num != need_ack:  # 收到乱序的数据包，则不再写入文件，跳出循环
                 break
-            ack_num = unpacked_data[1]
-            end_flag = unpacked_data[2]
-            data = unpacked_data[3]
+            end_flag = unpacked_data[1]
+            data = unpacked_data[2]
             buffer_receive.remove(data_)
             if seq_num == need_ack:
                 if end_flag != 1:
@@ -236,6 +237,10 @@ def lsend(server_socket, client_address, large_file_name):
         else:
             server_socket.sendto(str(need_ack).encode('utf-8'), client_address)
         if end_flag == 1:
+            break
+
+        if connection_break:
+            print("break")
             break
 
 
