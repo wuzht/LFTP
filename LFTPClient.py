@@ -48,6 +48,7 @@ def lsend(client_socket, server_address, large_file_name):
 
     send_base = 0
     # 用缓冲区循环发送数据包
+    cwnd = 1
     while True:
         send_package_num = 0
 
@@ -57,9 +58,9 @@ def lsend(client_socket, server_address, large_file_name):
         is_end = False
         new_threading = threading.Thread(target=listen_package, args=(client_socket, 0))
         new_threading.start()
-        for i in range(SND_WINDOW_SIZE):
+        for i in range(cwnd):
 
-            if is_full or pkt_count == len(data_group) - 1:
+            if is_full or pkt_count == len(data_group) - 1 or i > len(data_group):
                 break
 
             if str(data_group[i]) != "b''":  # b''表示文件读完
@@ -85,7 +86,7 @@ def lsend(client_socket, server_address, large_file_name):
                     break
                 except ConnectionResetError as e:
                     pkt_count = pkt_count + i
-                    break
+                    return
                 except ValueError as e:
                     pkt_count = pkt_count + i
                     break
@@ -116,21 +117,24 @@ def lsend(client_socket, server_address, large_file_name):
                     pkt_count = ack_num
                     break
                 else:
+                    cwnd = 1
                     pkt_count = pkt_count
                     ack_data_, server_address = client_socket.recvfrom(BUF_SIZE)
 
         except socket.timeout as e:
             pkt_count = pkt_count
+            cwnd = 1
         except ConnectionResetError as e:
             print(sys._getframe().f_lineno, e)
             break
 
         print(sys._getframe().f_lineno, "pkt_count", pkt_count)
 
+        cwnd *= 2
         # 更新data_group
         for i in range(pkt_count - send_base):
             del data_group[0]
-        while len(data_group) < SND_WINDOW_SIZE:
+        while len(data_group) < cwnd:
             data_group.append(file_to_send.read(FILE_BUF_SIZE))
             if str(data_group[len(data_group) - 1]) == "b''":
                 break
@@ -158,7 +162,7 @@ def listen_package(client_socket, ack_type):
                     threading_lock.release()
             except ConnectionResetError as e:
                 print(e)
-                break
+                return
 
 
 def lget(client_socket, server_address, large_file_name):

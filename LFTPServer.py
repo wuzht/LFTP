@@ -35,6 +35,7 @@ def lget(server_socket, client_address, large_file_name):
             break
 
     send_base = 0
+    cwnd = 1
     # 用缓冲区循环发送数据包
     while True:
         send_package_num = 0
@@ -45,7 +46,7 @@ def lget(server_socket, client_address, large_file_name):
         is_end = False
         new_threading = threading.Thread(target=listen_package, args=(server_socket, 0))
         new_threading.start()
-        for i in range(SND_WINDOW_SIZE):
+        for i in range(cwnd):
             if is_full or pkt_count == len(data_group) - 1:
                 break
 
@@ -108,6 +109,7 @@ def lget(server_socket, client_address, large_file_name):
         threadLock.release()
         new_threading.join()
 
+        cwnd *= 2
         # 等待接收端ACK,这里只会发送一个ACK，收到的ACK的值为需要的部分的开始
         try:
             ack_data_, client_address = server_socket.recvfrom(BUF_SIZE)
@@ -121,10 +123,12 @@ def lget(server_socket, client_address, large_file_name):
                 else:
                     pkt_count = pkt_count
                     ack_data_, client_address = server_socket.recvfrom(BUF_SIZE)
+                    cwnd = 1
 
         except socket.timeout as e:
             print(sys._getframe().f_lineno, e)
             pkt_count = pkt_count
+            cwnd  =1
         except ConnectionResetError as e:
             print(sys._getframe().f_lineno, e)
             break
@@ -134,7 +138,7 @@ def lget(server_socket, client_address, large_file_name):
         # 更新data_group
         for i in range(pkt_count - send_base):
             del data_group[0]
-        while len(data_group) < SND_WINDOW_SIZE:
+        while len(data_group) < cwnd:
             data_group.append(file_to_send.read(FILE_BUF_SIZE))
             if str(data_group[len(data_group) - 1]) == "b''":
                 break
@@ -181,6 +185,7 @@ def lsend(server_socket, client_address, large_file_name):
 
     need_ack = 0
     end_flag = 0
+    connection_break = False
     # 开始接收数据包
     while True:
         # 用缓冲区接收数据包
@@ -196,6 +201,7 @@ def lsend(server_socket, client_address, large_file_name):
                 package_num += 1
             except Exception as e:
                 print(sys._getframe().f_lineno, e)
+                connection_break = True
                 break
 
         # 窗口满了，向发送端发送
@@ -230,6 +236,7 @@ def lsend(server_socket, client_address, large_file_name):
             server_socket.sendto(str(need_ack).encode('utf-8'), client_address)
         if end_flag == 1:
             break
+
 
     file_to_recv.close()
     # print(len(buffer_receive))
