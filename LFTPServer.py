@@ -97,7 +97,7 @@ def lget(server_socket, client_address, large_file_name):
 
         print(sys._getframe().f_lineno, "pkt_count sndbase lendata", pkt_count, send_base, len(data_group))
         if is_end:
-            if pkt_count == send_base + len(data_group) - 1:
+            if pkt_count >= send_base + len(data_group) - 1:
                 print(sys._getframe().f_lineno, "return")
                 break
             else:
