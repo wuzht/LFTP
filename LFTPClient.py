@@ -6,7 +6,7 @@ import struct
 import threading
 import sys
 import random
-import time
+
 BUF_SIZE = 1500
 FILE_BUF_SIZE = 1024
 SERVER_PORT = 12000
@@ -14,13 +14,12 @@ CLIENT_FOLDER = 'ClientFiles/'   # 接收文件夹
 
 RCV_WINDOW_SIZE = 1000
 SND_WINDOW_SIZE = 800
-# wsnd = WINDOW_SIZE
 
 threading_lock = threading.Lock()
 dummy_address = ('150.10.10.2', 65351)
 
-# 传输文件时的数据包格式(序列号，确认号，文件结束标志，1024B的数据)
-# pkt_value = (int seq, int ack, int end_flag 1024B的byte类型 data)
+# 传输文件时的数据包格式(序列号，文件结束标志，1024B的数据)
+# pkt_value = (int seq, int end_flag 1024B的byte类型 data)
 pkt_struct = struct.Struct('II1024s')
 
 
@@ -88,7 +87,6 @@ def lsend(client_socket, server_address, large_file_name):
                 except ConnectionResetError as e:
                     pkt_count = pkt_count + i
                     is_break = True
-                    # print("isBreak")
                     break
                 except ValueError as e:
                     pkt_count = pkt_count + i
@@ -149,8 +147,6 @@ def lsend(client_socket, server_address, large_file_name):
     print(large_file_name, '发送完毕，发送数据包的数量：' + str(pkt_count))
 
 
-
-
 def listen_package(client_socket, ack_type):
     global is_full
     is_full = False
@@ -170,7 +166,6 @@ def listen_package(client_socket, ack_type):
                 else:
                     threading_lock.release()
             except ConnectionResetError as e:
-                # print(e)
                 break
 
 
@@ -299,7 +294,6 @@ def main():
     # 创建客户端socket
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     client_socket.settimeout(4)
-
 
     # 客户端输入命令
     read_command(client_socket)

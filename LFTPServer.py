@@ -5,6 +5,7 @@ import struct
 import threading
 import sys
 import random
+
 BUF_SIZE = 1500
 FILE_BUF_SIZE = 1024
 SERVER_PORT = 12000
@@ -14,8 +15,8 @@ SND_WINDOW_SIZE = 800
 threadLock = threading.Lock()
 dummy_address = ('150.10.10.2', 65351)
 
-# 传输文件时的数据包格式(序列号，确认号，文件结束标志，1024B的数据)
-# pkt_value = (int seq, int ack, int end_flag 1024B的byte类型 data)
+# 传输文件时的数据包格式(序列号，文件结束标志，1024B的数据)
+# pkt_value = (int seq, int end_flag 1024B的byte类型 data)
 pkt_struct = struct.Struct('II1024s')
 
 
@@ -54,7 +55,6 @@ def lget(server_socket, client_address, large_file_name):
                 end_flag = 0
                 server_socket.sendto(pkt_struct.pack(*(pkt_count + i, end_flag, data_group[i])),
                                      client_address)
-                # print(sys._getframe().f_lineno, "sending", pkt_count + i)
                 send_package_num += 1
             else:
                 is_end = True
@@ -90,7 +90,6 @@ def lget(server_socket, client_address, large_file_name):
                     pkt_count = pkt_count + i
                     break
                 except ConnectionError as e:
-                    # print(sys._getframe().f_lineno, "pkt_count", pkt_count)
                     file_to_send.close()
                     print(sys._getframe().f_lineno, large_file_name, '发送完毕，发送数据包的数量：' + str(pkt_count), e)
                     return
@@ -130,7 +129,6 @@ def lget(server_socket, client_address, large_file_name):
             pkt_count = pkt_count
             cwnd  =1
         except ConnectionResetError as e:
-            # print(sys._getframe().f_lineno, e)
             break
 
         print(sys._getframe().f_lineno, "pkt_count", pkt_count)
@@ -243,10 +241,7 @@ def lsend(server_socket, client_address, large_file_name):
             print("break")
             break
 
-
     file_to_recv.close()
-    # print(len(buffer_receive))
-
     print('成功接收的数据包数量：' + str(need_ack))
 
 
@@ -267,8 +262,6 @@ def serve_client(client_address, message):
             # 关闭socket
             server_socket.close()
             return
-
-        # TODO: 在此要把各样工作准备好，再发送连接允许
 
         # 连接允许
         send_words = '连接允许,' + str(threading.currentThread().ident)
@@ -297,12 +290,9 @@ def serve_client(client_address, message):
                 continue
         print('来自', client_address, '的数据是: ', message.decode('utf-8'))
 
-        # TODO: 在此要把各样工作准备好，再发送接收允许(在lsend内)
-
         lsend(server_socket, client_address, large_file_name)
 
     # 关闭socket
-
     print("close")
     server_socket.close()
 
@@ -317,9 +307,6 @@ def main():
     server_main_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     server_main_socket.bind(('', SERVER_PORT))
     server_main_socket.settimeout(2)
-
-    # global wsnd
-    # wsnd = WINDOW_SIZE
 
     global address
     address = []
@@ -337,7 +324,6 @@ def main():
         print('来自', client_address, '的数据是: ', message.decode('utf-8'))
 
         # 创建新的线程，处理客户端的请求
-
         address.append(client_address)
         new_thread = threading.Thread(target=serve_client, args=(client_address, message))
         new_thread.start()
